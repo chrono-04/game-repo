@@ -1,0 +1,82 @@
+[gd_scene load_steps=11 format=3 uid="uid://bh6b1hwtadask"]
+
+[ext_resource type="Script" path="res://player2.gd" id="1_gk7on"]
+[ext_resource type="Texture2D" uid="uid://bwyjcwm2anl58" path="res://sprites/knight.png" id="2_uy0x0"]
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_185rr"]
+
+[sub_resource type="ConcavePolygonShape3D" id="ConcavePolygonShape3D_beqd2"]
+data = PackedVector3Array(1, 0, 1, -1, 0, 1, 1, 0, -1, -1, 0, 1, -1, 0, -1, 1, 0, -1)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wuvq1"]
+atlas = ExtResource("2_uy0x0")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ky63q"]
+atlas = ExtResource("2_uy0x0")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hrjgo"]
+atlas = ExtResource("2_uy0x0")
+region = Rect2(64, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_m3f3r"]
+atlas = ExtResource("2_uy0x0")
+region = Rect2(96, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_06f5v"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wuvq1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ky63q")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hrjgo")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_m3f3r")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 10.0
+}]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_hc1to"]
+radius = 0.0778156
+height = 0.184163
+
+[node name="Main" type="Node3D"]
+transform = Transform3D(1, 0, 0, 0, 0.736493, 0, 0, 0, 0.196242, 0, 0, 0)
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.114868, 0.993381, 0, -0.993381, 0.114868, 0, 0.968404, 0)
+
+[node name="plane" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1.9703, 0, 0, 0)
+mesh = SubResource("PlaneMesh_185rr")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="plane"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="plane/StaticBody3D"]
+shape = SubResource("ConcavePolygonShape3D_beqd2")
+
+[node name="player2" type="CharacterBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.673752, 0.151836, 0)
+script = ExtResource("1_gk7on")
+
+[node name="AnimatedSprite3D" type="AnimatedSprite3D" parent="player2"]
+texture_filter = 0
+sprite_frames = SubResource("SpriteFrames_06f5v")
+animation = &"idle"
+autoplay = "idle"
+frame_progress = 0.903801
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="player2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.0365318, 0)
+shape = SubResource("CapsuleShape3D_hc1to")
+
+[node name="Camera3D" type="Camera3D" parent="player2"]
+transform = Transform3D(1, 0, 0, 0, 1.35779, 0, 0, 0, 5.09576, 0, 0, 3.80647)
